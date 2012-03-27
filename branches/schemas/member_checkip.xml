@@ -1,0 +1,5 @@
+<table name="member_checkip">
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="member_srl" />
+	<column name="reg_ip" type="varchar" size="128" notnull="notnull" index="idx_reg_ip" />
+	<column name="regdate" type="date" index="idx_regdate" />
+</table>
