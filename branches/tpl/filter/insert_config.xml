@@ -1,0 +1,13 @@
+<filter name="insert_config" module="checkip" act="procCheckipAdminInsertConfig">
+	<form />
+	<parameter>
+		<param name="delete_reg_ip" target="delete_reg_ip" />
+	</parameter>
+	<parameter>
+		<param name="check_ip" target="check_ip" />
+	</parameter>
+	<response callback_func="completeInsertConfig">
+		<tag name="error" />
+		<tag name="message" />
+	</response>
+</filter>
