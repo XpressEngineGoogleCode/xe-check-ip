@@ -24,4 +24,25 @@ class checkipModel extends checkip {
 
 		return $config;
 	}
+	
+	/**
+	 * @brief 중복 IP의 갯수를 구함
+	 */
+	 
+	function getMemberIpCount($reg_ip) {
+		$args->reg_ip = $reg_ip;
+		$output = executeQuery('checkip.countMemberIP', $args);
+		
+		return $output->data->count;
+	}
+	
+	function getLatestRegIP($reg_ip) {
+		$args->reg_ip = $reg_ip;
+		$args->order_type = 'desc';
+		$args->sort_index = 'log_srl';
+		$output = executeQuery('checkip.getLatestRegIP', $args);
+		
+		return $output->data->regdate;
+	}
+	
 }
