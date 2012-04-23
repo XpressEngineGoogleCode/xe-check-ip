@@ -3,6 +3,7 @@
 		<table name="member_checkip" />
 	</tables>
 	<columns>
+		<column name="log_srl" />
 		<column name="member_srl" />
 		<column name="reg_ip" />
 		<column name="regdate" />
