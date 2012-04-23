@@ -39,5 +39,43 @@ class checkipAdminController extends checkip {
 
 		$this->setMessage($msg_code);
 	}
+	
+	/**
+	 * @brief 기록 일괄 삭제
+	 */
+	
+	function procCheckipAdminAllDelete() {
+
+            // 변수 체크
+            $cart = trim(Context::get('cart'));
+            if(!$cart) return new Object(-1, 'msg_cart_is_null');
+
+            $cart_list = explode('|@|', $cart);
+            if(!count($cart_list)) return new Object(-1, 'msg_cart_is_null');
+
+			$log_count = count($cart_list);
+            $target = array();
+            for($i=0;$i<$log_count;$i++) {
+                $log_srl = (int)trim($cart_list[$i]);
+                if(!$log_srl) continue;
+                $target[] = $log_srl;
+            }
+            if(!count($target)) return new Object(-1,'msg_cart_is_null');
+
+            // 삭제
+            $args->log_srls = implode(',',$target);
+            $output = $this->deleteRegIP($args);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+		}
+	
+	/**
+	 * @brief 기록 삭제
+	 */	
+	function deleteRegIP($args) {
+			if(!$args) return false;
+            return executeQuery('checkip.deleteRegIpByLogSrl', $args);
+		}
 
 }
