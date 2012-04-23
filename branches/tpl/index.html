@@ -1,5 +1,6 @@
 <!--%import("./filter/init.xml")-->
 <!--%import("./filter/insert_config.xml")-->
+<!--%import("./filter/delete_checked_log.xml")-->
 <!--%import("./css/loginlog_admin.css")-->
 <!--%import("./js/loginlog_admin.js")-->
 <!-- 설정 -->
@@ -47,34 +48,42 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="rowTable clear">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-	<tr>
-		<th scope="col"><div>{$lang->no}</div></th>
-		<th scope="col"><div>{$lang->nick_name} ({$lang->user_id})</div></th>
-		<th scope="col"><div>{$lang->email_address}</div></th>
-		<th scope="col"><div>{$lang->ipaddress}</div></th>
-		<th scope="col"><div>{$lang->date}</div></th>
-	</tr>
-</thead>
-<tbody>
-	<!--@if(count($log_list))-->
-	{@ $oMemberModel = &getModel('member')}
-	<!--@foreach($log_list as $no => $log)-->
-	{@ $member_info = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl)}
-	<tr>
-		<td class="number center">{$no}</td>
-		<td class="center"><span class="member_{$log->member_srl}">{$member_info->nick_name}</span> <a href="{getUrl('search_target', 'member_srl', 'search_keyword', $log->member_srl)}">({$member_info->user_id})</a></td>
-		<td class="center">{$member_info->email_address}</td>
-		<td class="center"><a href="{getUrl('search_target', 'ipaddress', 'search_keyword', $log->reg_ip)}">{$log->reg_ip}</a>&nbsp;<a href="http://www.ip-adress.com/ip_tracer/{$log->reg_ip}" target="_blank">[추적]</a></td>
-		<td class="date center nowrap">{zdate($log->regdate, 'Y-m-d H:i:s')}</td>
-	</tr>
-	<!--@end-->
-	<!--@end-->
-</tbody>
-</table>
-
+<form method="get" action="./" onsubmit="return procFilter(this, delete_checked_log)" id="message_fo">
+	<table cellspacing="0" class="rowTable clear">
+	<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+		<thead>
+			<tr>
+				<th scope="col"><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;"/></th>
+				<th scope="col"><div>{$lang->no}</div></th>
+				<th scope="col"><div>{$lang->nick_name} ({$lang->user_id})</div></th>
+				<th scope="col"><div>{$lang->email_address}</div></th>
+				<th scope="col"><div>{$lang->ipaddress}</div></th>
+				<th scope="col"><div>{$lang->date}</div></th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--@if(count($log_list))-->
+			{@ $oMemberModel = &getModel('member')}
+			<!--@foreach($log_list as $no => $log)-->
+			{@ $member_info = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl)}
+			<tr>
+				<td class="center"><input type="checkbox" name="cart" value="{$log->log_srl}"/></td>
+				<td class="number center">{$no}</td>
+				<td class="center"><span class="member_{$log->member_srl}">{$member_info->nick_name}</span> <a href="{getUrl('search_target', 'member_srl', 'search_keyword', $log->member_srl)}">({$member_info->user_id})</a></td>
+				<td class="center">{$member_info->email_address}</td>
+				<td class="center"><a href="{getUrl('search_target', 'ipaddress', 'search_keyword', $log->reg_ip)}">{$log->reg_ip}</a>&nbsp;<a href="http://www.ip-adress.com/ip_tracer/{$log->reg_ip}" target="_blank">[추적]</a></td>
+				<td class="date center nowrap">{zdate($log->regdate, 'Y-m-d H:i:s')}</td>
+			</tr>
+			<!--@end-->
+			<!--@end-->
+		</tbody>
+	</table>
+	 <div class="clear">
+        <div class="fl">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        </div>
+	  </div>
+</form>
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">
 	<a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
