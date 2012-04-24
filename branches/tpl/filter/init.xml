@@ -1,4 +1,4 @@
-<filter name="init" module="checkip" act="procCheckipAdminInitLogs">
+<filter name="init" module="checkip" act="procCheckipAdminInitLogs" confirm_msg_code="confirm_delete">
 	<form />
 	<parameter />
 	<response callback_func="completeInsertConfig">
